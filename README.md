@@ -1,3 +1,3 @@
 # CSharpProCourse
-C# Professional course team project
-Первый коммит в рамках домашнего задания //Леонченко А.С.
+C# Professional course team project 
+The first commit in homework 1.// Leonchenko A.S.
