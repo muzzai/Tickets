@@ -1,11 +1,14 @@
 ﻿using Ardalis.ListStartupServices;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using DiscountService.Core;
 using DiscountService.Infrastructure;
+using DiscountService.Infrastructure.Data;
+using DiscountService.Web;
+using DiscountService.Web.Endpoints.DiscountEndpoints;
 using FastEndpoints;
 using FastEndpoints.Swagger.Swashbuckle;
 using FastEndpoints.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -26,12 +29,17 @@ string? connectionString =
 
 builder.Services.AddDbContext(connectionString!);
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson();
-builder.Services.AddRazorPages();
+builder.Services.AddControllers();
 builder.Services.AddFastEndpoints();
 builder.Services.AddFastEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+  
+
+// Create the OpenApiSchema for the GroupRecord
+    
+  c.MapType<AddRulesRequest>(() => SchemaProvider.SchemaForAddRulesRequest);
+
   c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
   c.EnableAnnotations();
   c.OperationFilter<FastEndpointsOperationFilter>();
@@ -49,7 +57,6 @@ builder.Services.Configure<ServiceConfig>(config =>
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-  containerBuilder.RegisterModule(new DefaultCoreModule());
   containerBuilder.RegisterModule(
     new DefaultInfrastructureModule(builder.Environment.EnvironmentName == "Development"));
 });
@@ -79,6 +86,23 @@ app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
 
 app.MapDefaultControllerRoute();
+
+using (var scope = app.Services.CreateScope())
+{
+  var services = scope.ServiceProvider;
+
+  try
+  {
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+    context.Database.EnsureCreated();
+  }
+  catch (Exception ex)
+  {
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred seeding the DB. {ExceptionMessage}", ex.Message);
+  }
+}
 
 app.Run();
 

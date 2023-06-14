@@ -10,14 +10,11 @@ public class RuleGroupConfiguration : IEntityTypeConfiguration<RuleGroup>
   public void Configure(EntityTypeBuilder<RuleGroup> builder)
   {
     builder.HasMany(group => group.Children)
-      .WithOne(group => group.ParentRuleGroupId)
+      .WithOne(group => group.ParentRuleGroup)
       .HasForeignKey("ParentGroupId");
     builder.HasMany(group => group.Rules)
       .WithOne(rule => rule.RuleGroup)
       .HasForeignKey("RuleGroupId")
       .IsRequired();
-    builder.HasOne(group => group.Discount)
-      .WithOne(discount => discount.RootRuleGroup)
-      .HasForeignKey<Discount>("RootRuleGroupId");
   }
 }

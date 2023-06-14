@@ -10,5 +10,8 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
   public void Configure(EntityTypeBuilder<Discount> builder)
   {
     builder.OwnsOne(discount => discount.Info);
+    builder.HasOne<RuleGroup>(discount => discount.RootRuleGroup)
+      .WithOne(group => group.Discount)
+      .HasForeignKey<RuleGroup>("DiscountId");
   }
 }

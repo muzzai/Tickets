@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672" # RabbitMQ communication port
+      - "15672:15672" # RabbitMQ management UI port
+        
+  discount-service:
+    extends:
+      file: DiscountService/discount-service.yaml

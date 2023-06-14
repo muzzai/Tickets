@@ -1,13 +1,15 @@
 ﻿using System.Reflection;
 using Autofac;
-using DiscountService.Core.Interfaces;
-using DiscountService.Core.ProjectAggregate;
 using DiscountService.Infrastructure.Data;
 using MediatR;
 using MediatR.Pipeline;
 using SharedKernel;
 using SharedKernel.Interfaces;
 using Module = Autofac.Module;
+using Microsoft.Extensions.DependencyInjection;
+using Autofac.Extensions.DependencyInjection;
+using DiscountService.Core.DiscountAggregate;
+
 
 namespace DiscountService.Infrastructure;
 
@@ -20,7 +22,7 @@ public class DefaultInfrastructureModule : Module
   {
     _isDevelopment = isDevelopment;
     var coreAssembly =
-      Assembly.GetAssembly(typeof(Project)); // TODO: Replace "Project" with any type from your Core project
+      Assembly.GetAssembly(typeof(Discount)); // TODO: Replace "Project" with any type from your Core project
     var infrastructureAssembly = Assembly.GetAssembly(typeof(StartupSetup));
     if (coreAssembly != null)
     {
@@ -40,14 +42,14 @@ public class DefaultInfrastructureModule : Module
 
   protected override void Load(ContainerBuilder builder)
   {
-    if (_isDevelopment)
+    /*if (_isDevelopment)
     {
       RegisterDevelopmentOnlyDependencies(builder);
     }
     else
     {
       RegisterProductionOnlyDependencies(builder);
-    }
+    }*/
 
     RegisterCommonDependencies(builder);
   }
@@ -69,12 +71,8 @@ public class DefaultInfrastructureModule : Module
       .As<IDomainEventDispatcher>()
       .InstancePerLifetimeScope();
 
-    //builder.Register<ServiceFactory>(context =>
-    //{
-    //  var c = context.Resolve<IComponentContext>();
+    builder.Populate(new ServiceCollection());
 
-    //  return t => c.Resolve(t);
-    //});
 
     var mediatrOpenTypes = new[]
     {
@@ -91,7 +89,7 @@ public class DefaultInfrastructureModule : Module
     }
   }
 
-  private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
+  /*private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
   {
     // NOTE: Add any development only services here
     builder.RegisterType<FakeEmailSender>().As<IEmailSender>()
@@ -103,5 +101,5 @@ public class DefaultInfrastructureModule : Module
     // NOTE: Add any production only services here
     builder.RegisterType<SmtpEmailSender>().As<IEmailSender>()
       .InstancePerLifetimeScope();
-  }
+  }*/
 }

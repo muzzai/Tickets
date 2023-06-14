@@ -1,4 +1,5 @@
-﻿using DiscountService.Core.DiscountAggregate.Rules.RuleGroups;
+﻿using DiscountService.Core.DiscountAggregate.Rules.Interfaces;
+using DiscountService.Core.DiscountAggregate.Rules.RuleGroups;
 using DiscountService.Core.DiscountAggregate.Rules.TargetInfo;
 using SharedKernel;
 

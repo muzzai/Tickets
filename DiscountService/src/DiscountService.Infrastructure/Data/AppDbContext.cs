@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using DiscountService.Core.ContributorAggregate;
 using DiscountService.Core.DiscountAggregate;
 using DiscountService.Core.DiscountAggregate.Rules.RuleGroups;
-using DiscountService.Core.ProjectAggregate;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 using SharedKernel.Interfaces;
@@ -21,7 +19,7 @@ public class AppDbContext : DbContext
   }
 
   public DbSet<Discount> Discounts => Set<Discount>();
-  
+
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

@@ -1,14 +1,15 @@
-﻿using SharedKernel;
+﻿using DiscountService.Core.DiscountAggregate.Rules.Interfaces;
+using SharedKernel;
 
 namespace DiscountService.Core.DiscountAggregate.Rules.RuleGroups;
 
-public class RuleGroup : EntityBase<Guid>, IEvaluable
+public class RuleGroup : EntityBase<Guid>, IEvaluable, IRuleGroupRoot
 {
   public Discount? Discount;
   public GroupOperator GroupOperator { get; set; }
   public List<Rule>? Rules { get; set; }
   public List<RuleGroup>? Children { get; set; }
-  public RuleGroup? ParentRuleGroupId { get; set; }
+  public RuleGroup? ParentRuleGroup { get; set; }
 
   public RuleGroup(GroupOperator groupOperator)
   {
@@ -53,15 +54,24 @@ public class RuleGroup : EntityBase<Guid>, IEvaluable
     };
   }
 
-  public void AddRuleGroups(List<RuleGroup> rulesGroups)
-  {
-    Children ??= new List<RuleGroup>();
-    Children.AddRange(rulesGroups);
-  }
-  
   public void AddRules(List<Rule> rules)
   {
     Rules ??= new List<Rule>();
     Rules.AddRange(rules);
+  }
+
+  public void AddRuleGroup(RuleGroup ruleGroup)
+  {
+    ruleGroup.ParentRuleGroup = this;
+    Children ??= new List<RuleGroup>();
+    Children.Add(ruleGroup);  
+  }
+
+  public void DeleteRuleGroup(RuleGroup ruleGroup)
+  {
+    if (Children != null)
+    {
+      Children = Children.Where(x => x.Id != ruleGroup.Id).ToList();
+    }
   }
 }

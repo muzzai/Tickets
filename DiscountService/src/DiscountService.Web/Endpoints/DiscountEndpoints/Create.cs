@@ -1,12 +1,10 @@
-﻿using Ardalis.ApiEndpoints;
-using DiscountService.Core.DiscountAggregate;
-using Microsoft.AspNetCore.Mvc;
+﻿using DiscountService.Core.DiscountAggregate;
+using FastEndpoints;
 using SharedKernel.Interfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace DiscountService.Web.Endpoints.DiscountEndpoints;
 
-public class Create : EndpointBaseAsync.WithRequest<CreateDiscountRequest>.WithActionResult<CreateDiscountResponse>
+public class Create : Endpoint<CreateDiscountRequest, CreateDiscountResponse>
 {
   private readonly IRepository<Discount> _repository;
 
@@ -14,19 +12,16 @@ public class Create : EndpointBaseAsync.WithRequest<CreateDiscountRequest>.WithA
   {
     _repository = repository;
   }
-  [HttpPost("/Discounts")]
-  [SwaggerOperation(
-    Summary = "Creates a new Discount",
-    Description = "Creates a new Discount",
-    OperationId = "Discount.Create",
-    Tags = new[] { "DiscountEndpoints" })
-  ]
-  public override async Task<ActionResult<CreateDiscountResponse>> HandleAsync(
-    CreateDiscountRequest request, CancellationToken cancellationToken = new CancellationToken()
-    )
+
+  public override void Configure()
   {
-    if (request.Amount == 0)
-      return BadRequest();
+    Post(CreateDiscountRequest.Route);
+    AllowAnonymous();
+    Options(x => x.WithTags("Discount"));
+  }
+  
+  public override async Task HandleAsync(CreateDiscountRequest request, CancellationToken cancellationToken)
+  {
     var info = new Info(request.Amount, request.IsCumulative, request.EventId);
     var newDiscount = new Discount(info);
     
@@ -40,7 +35,7 @@ public class Create : EndpointBaseAsync.WithRequest<CreateDiscountRequest>.WithA
       createdItem.Info.EventId,
       createdItem.Id,
       createdItem.IsActive
-      );
-    return Ok(response);
+    );
+    await SendAsync(response);
   }
 }
