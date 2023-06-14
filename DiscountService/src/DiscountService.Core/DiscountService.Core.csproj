@@ -16,4 +16,14 @@
         <PackageReference Include="SharedKernel" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\DiscountContracts\DiscountContracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MassTransit.Abstractions">
+        <HintPath>..\..\..\..\..\..\.nuget\packages\masstransit.abstractions\8.1.0-develop.1394\lib\net6.0\MassTransit.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

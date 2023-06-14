@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
     : base(options)
   {
     _dispatcher = dispatcher;
+    
   }
 
   public DbSet<Discount> Discounts => Set<Discount>();

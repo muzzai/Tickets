@@ -1,6 +1,7 @@
 ﻿using Ardalis.ListStartupServices;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using DiscountService.Core;
 using DiscountService.Infrastructure;
 using DiscountService.Infrastructure.Data;
 using DiscountService.Web;
@@ -8,6 +9,7 @@ using DiscountService.Web.Endpoints.DiscountEndpoints;
 using FastEndpoints;
 using FastEndpoints.Swagger.Swashbuckle;
 using FastEndpoints.ApiExplorer;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -28,7 +30,18 @@ string? connectionString =
   builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext(connectionString!);
-
+builder.Services.AddMassTransit(x =>
+{
+  x.UsingRabbitMq((context, cfg) =>
+  {
+    cfg.Host("localhost", h =>
+    {
+      h.Username("username");
+      h.Password("password");
+    });
+    cfg.Durable = true;
+  });
+});
 builder.Services.AddControllers();
 builder.Services.AddFastEndpoints();
 builder.Services.AddFastEndpointsApiExplorer();
@@ -57,6 +70,7 @@ builder.Services.Configure<ServiceConfig>(config =>
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
+  containerBuilder.RegisterModule(new DefaultCoreModule());
   containerBuilder.RegisterModule(
     new DefaultInfrastructureModule(builder.Environment.EnvironmentName == "Development"));
 });

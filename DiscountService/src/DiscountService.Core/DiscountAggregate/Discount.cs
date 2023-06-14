@@ -36,6 +36,7 @@ public class Discount : EntityBase<Guid>, IAggregateRoot, IRuleGroupRoot
   {
     IsActive = false;
   }
+  
 
   public DiscountResult GetResult(DiscountRequest discountRequest)
   {

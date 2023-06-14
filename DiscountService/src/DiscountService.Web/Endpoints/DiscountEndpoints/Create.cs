@@ -1,4 +1,5 @@
 ﻿using DiscountService.Core.DiscountAggregate;
+using DiscountService.Core.Interfaces;
 using FastEndpoints;
 using SharedKernel.Interfaces;
 
@@ -6,11 +7,11 @@ namespace DiscountService.Web.Endpoints.DiscountEndpoints;
 
 public class Create : Endpoint<CreateDiscountRequest, CreateDiscountResponse>
 {
-  private readonly IRepository<Discount> _repository;
-
-  public Create(IRepository<Discount> repository)
+  
+  private readonly IDiscountService _discountService;
+  public Create(IDiscountService discountService)
   {
-    _repository = repository;
+    _discountService = discountService;
   }
 
   public override void Configure()
@@ -22,19 +23,15 @@ public class Create : Endpoint<CreateDiscountRequest, CreateDiscountResponse>
   
   public override async Task HandleAsync(CreateDiscountRequest request, CancellationToken cancellationToken)
   {
-    var info = new Info(request.Amount, request.IsCumulative, request.EventId);
-    var newDiscount = new Discount(info);
+
+    var result = await _discountService.CreateDiscount(request.Amount, request.IsCumulative, request.EventId);
     
-    if (request.IsActive)
-      newDiscount.Activate();
-    
-    var createdItem = await _repository.AddAsync(newDiscount);
     var response = new CreateDiscountResponse(
-      createdItem.Info.IsCumulative,
-      createdItem.Info.Amount,
-      createdItem.Info.EventId,
-      createdItem.Id,
-      createdItem.IsActive
+      result.Value.Info.IsCumulative,
+      result.Value.Info.Amount,
+      result.Value.Info.EventId,
+      result.Value.Id,
+      result.Value.IsActive
     );
     await SendAsync(response);
   }
