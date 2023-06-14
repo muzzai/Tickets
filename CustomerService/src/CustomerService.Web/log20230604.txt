@@ -1,0 +1,364 @@
+2023-06-04 00:00:00.312 +06:00 [INF] Application is shutting down...
+2023-06-04 02:24:40.314 +06:00 [INF] Registered 6 endpoints in 186 milliseconds.
+2023-06-04 02:24:42.470 +06:00 [ERR] An error occurred seeding the DB. Name or service not known
+System.Net.Sockets.SocketException (00000005, 0xFFFDFFFF): Name or service not known
+   at System.Net.Dns.GetHostEntryOrAddressesCore(String hostName, Boolean justAddresses, AddressFamily addressFamily, Int64 startingTimestamp)
+   at System.Net.Dns.GetHostAddresses(String hostNameOrAddress, AddressFamily family)
+   at Npgsql.Internal.NpgsqlConnector.Connect(NpgsqlTimeout timeout)
+   at Npgsql.Internal.NpgsqlConnector.RawOpen(SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|215_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.UnpooledDataSource.Get(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|45_0(Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternal(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlDatabaseCreator.Exists(Boolean async, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlDatabaseCreator.Exists(Boolean async, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlDatabaseCreator.Exists()
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.Exists()
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.Migrate(String targetMigration)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+   at Program.<Main>$(String[] args) in /home/aleksandrshatalov/RiderProjects/tempppp/CSharpProCourse/CustomerService/src/CustomerService.Web/Program.cs:line 103
+2023-06-04 02:24:42.511 +06:00 [INF] User profile is available. Using '/home/aleksandrshatalov/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2023-06-04 02:24:42.562 +06:00 [INF] Now listening on: http://localhost:57679
+2023-06-04 02:24:42.562 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-04 02:24:42.563 +06:00 [INF] Hosting environment: Development
+2023-06-04 02:24:42.563 +06:00 [INF] Content root path: /home/aleksandrshatalov/RiderProjects/tempppp/CSharpProCourse/CustomerService/src/CustomerService.Web
+2023-06-04 02:25:02.772 +06:00 [INF] Application is shutting down...
+2023-06-04 02:25:06.458 +06:00 [INF] Registered 6 endpoints in 186 milliseconds.
+2023-06-04 02:25:07.497 +06:00 [INF] Executed DbCommand (80ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE DATABASE "customer_service.local";
+2023-06-04 02:25:07.588 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "__EFMigrationsHistory" (
+    migration_id character varying(150) NOT NULL,
+    product_version character varying(32) NOT NULL,
+    CONSTRAINT pk___ef_migrations_history PRIMARY KEY (migration_id)
+);
+2023-06-04 02:25:07.609 +06:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 02:25:07.613 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT migration_id, product_version
+FROM "__EFMigrationsHistory"
+ORDER BY migration_id;
+2023-06-04 02:25:07.631 +06:00 [INF] Applying migration '20230310064952_Init'.
+2023-06-04 02:25:07.642 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" (migration_id, product_version)
+VALUES ('20230310064952_Init', '7.0.3');
+2023-06-04 02:25:07.649 +06:00 [INF] Applying migration '20230312230319_AddUser'.
+2023-06-04 02:25:07.698 +06:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'auth') THEN
+        CREATE SCHEMA auth;
+    END IF;
+END $EF$;
+2023-06-04 02:25:07.701 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE auth."Role" (
+    id uuid NOT NULL,
+    name character varying(256) NULL,
+    normalized_name character varying(256) NULL,
+    concurrency_stamp text NULL,
+    CONSTRAINT pk_role PRIMARY KEY (id)
+);
+2023-06-04 02:25:07.705 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE auth."User" (
+    id uuid NOT NULL,
+    is_active boolean NOT NULL DEFAULT FALSE,
+    user_name character varying(256) NULL,
+    normalized_user_name character varying(256) NULL,
+    email character varying(256) NULL,
+    normalized_email character varying(256) NULL,
+    email_confirmed boolean NOT NULL,
+    password_hash text NULL,
+    security_stamp text NULL,
+    concurrency_stamp text NULL,
+    phone_number text NULL,
+    phone_number_confirmed boolean NOT NULL,
+    two_factor_enabled boolean NOT NULL,
+    lockout_end timestamp with time zone NULL,
+    lockout_enabled boolean NOT NULL,
+    access_failed_count integer NOT NULL,
+    CONSTRAINT pk_user PRIMARY KEY (id)
+);
+2023-06-04 02:25:07.709 +06:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE auth."RoleClaim" (
+    id integer GENERATED BY DEFAULT AS IDENTITY,
+    role_id uuid NOT NULL,
+    claim_type text NULL,
+    claim_value text NULL,
+    CONSTRAINT pk_role_claim PRIMARY KEY (id),
+    CONSTRAINT fk_role_claim_asp_net_roles_role_id FOREIGN KEY (role_id) REFERENCES auth."Role" (id) ON DELETE CASCADE
+);
+2023-06-04 02:25:07.712 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUserLogins" (
+    login_provider text NOT NULL,
+    provider_key text NOT NULL,
+    provider_display_name text NULL,
+    user_id uuid NOT NULL,
+    CONSTRAINT pk_asp_net_user_logins PRIMARY KEY (login_provider, provider_key),
+    CONSTRAINT fk_asp_net_user_logins_asp_net_users_user_id FOREIGN KEY (user_id) REFERENCES auth."User" (id) ON DELETE CASCADE
+);
+2023-06-04 02:25:07.716 +06:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUserTokens" (
+    user_id uuid NOT NULL,
+    login_provider text NOT NULL,
+    name text NOT NULL,
+    value text NULL,
+    CONSTRAINT pk_asp_net_user_tokens PRIMARY KEY (user_id, login_provider, name),
+    CONSTRAINT fk_asp_net_user_tokens_asp_net_users_user_id FOREIGN KEY (user_id) REFERENCES auth."User" (id) ON DELETE CASCADE
+);
+2023-06-04 02:25:07.720 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE auth."UserClaim" (
+    id integer GENERATED BY DEFAULT AS IDENTITY,
+    user_id uuid NOT NULL,
+    claim_type text NULL,
+    claim_value text NULL,
+    CONSTRAINT pk_user_claim PRIMARY KEY (id),
+    CONSTRAINT fk_user_claim_asp_net_users_user_id FOREIGN KEY (user_id) REFERENCES auth."User" (id) ON DELETE CASCADE
+);
+2023-06-04 02:25:07.723 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE auth."UserRole" (
+    "UserId" uuid NOT NULL,
+    "RoleId" uuid NOT NULL,
+    CONSTRAINT pk_user_role PRIMARY KEY ("UserId", "RoleId"),
+    CONSTRAINT fk_user_role_role_role_id FOREIGN KEY ("RoleId") REFERENCES auth."Role" (id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_role_user_user_id FOREIGN KEY ("UserId") REFERENCES auth."User" (id) ON DELETE CASCADE
+);
+2023-06-04 02:25:07.725 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX ix_asp_net_user_logins_user_id ON "AspNetUserLogins" (user_id);
+2023-06-04 02:25:07.727 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "RoleNameIndex" ON auth."Role" (normalized_name);
+2023-06-04 02:25:07.729 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX ix_role_claim_role_id ON auth."RoleClaim" (role_id);
+2023-06-04 02:25:07.731 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "EmailIndex" ON auth."User" (normalized_email);
+2023-06-04 02:25:07.732 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "UserNameIndex" ON auth."User" (normalized_user_name);
+2023-06-04 02:25:07.734 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX ix_user_claim_user_id ON auth."UserClaim" (user_id);
+2023-06-04 02:25:07.736 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX ix_user_role_role_id ON auth."UserRole" ("RoleId");
+2023-06-04 02:25:07.736 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" (migration_id, product_version)
+VALUES ('20230312230319_AddUser', '7.0.3');
+2023-06-04 02:25:07.752 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )
+2023-06-04 02:25:08.023 +06:00 [INF] Executed DbCommand (16ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 02:25:08.037 +06:00 [INF] User profile is available. Using '/home/aleksandrshatalov/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2023-06-04 02:25:08.050 +06:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 02:25:08.102 +06:00 [INF] Now listening on: http://localhost:57679
+2023-06-04 02:25:08.102 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-04 02:25:08.103 +06:00 [INF] Hosting environment: Development
+2023-06-04 02:25:08.103 +06:00 [INF] Content root path: /home/aleksandrshatalov/RiderProjects/tempppp/CSharpProCourse/CustomerService/src/CustomerService.Web
+2023-06-04 02:25:08.204 +06:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?', @p3='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO auth."Role" (id, concurrency_stamp, name, normalized_name)
+VALUES (@p0, @p1, @p2, @p3);
+2023-06-04 02:25:08.225 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 02:25:08.227 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 02:25:08.234 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?', @p3='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO auth."Role" (id, concurrency_stamp, name, normalized_name)
+VALUES (@p0, @p1, @p2, @p3);
+2023-06-04 02:25:08.236 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 02:25:08.237 +06:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 02:25:08.240 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?', @p3='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO auth."Role" (id, concurrency_stamp, name, normalized_name)
+VALUES (@p0, @p1, @p2, @p3);
+2023-06-04 02:25:45.123 +06:00 [INF] Application is shutting down...
+2023-06-04 04:15:42.632 +06:00 [INF] Registered 6 endpoints in 180 milliseconds.
+2023-06-04 04:15:43.565 +06:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 04:15:43.579 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 04:15:43.593 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT migration_id, product_version
+FROM "__EFMigrationsHistory"
+ORDER BY migration_id;
+2023-06-04 04:15:43.608 +06:00 [INF] No migrations were applied. The database is already up to date.
+2023-06-04 04:15:43.618 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )
+2023-06-04 04:15:43.864 +06:00 [INF] Executed DbCommand (17ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 04:15:43.882 +06:00 [INF] User profile is available. Using '/home/aleksandrshatalov/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2023-06-04 04:15:43.935 +06:00 [INF] Now listening on: http://localhost:57679
+2023-06-04 04:15:43.936 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-04 04:15:43.936 +06:00 [INF] Hosting environment: Development
+2023-06-04 04:15:43.936 +06:00 [INF] Content root path: /home/aleksandrshatalov/RiderProjects/tempppp/CSharpProCourse/CustomerService/src/CustomerService.Web
+2023-06-04 04:15:43.939 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 04:15:43.942 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 04:15:52.084 +06:00 [INF] Application is shutting down...
+2023-06-04 04:50:16.384 +06:00 [INF] Registered 1 endpoints in 36 milliseconds.
+2023-06-04 04:50:16.488 +06:00 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2023-06-04 04:50:17.449 +06:00 [INF] Executed DbCommand (32ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 04:50:17.463 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 04:50:17.478 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT migration_id, product_version
+FROM "__EFMigrationsHistory"
+ORDER BY migration_id;
+2023-06-04 04:50:17.493 +06:00 [INF] No migrations were applied. The database is already up to date.
+2023-06-04 04:50:17.504 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )
+2023-06-04 04:50:17.767 +06:00 [INF] Executed DbCommand (17ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 04:50:17.783 +06:00 [INF] User profile is available. Using '/home/aleksandrshatalov/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2023-06-04 04:50:17.843 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 04:50:17.845 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 04:50:17.849 +06:00 [INF] Now listening on: http://localhost:57679
+2023-06-04 04:50:17.850 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-04 04:50:17.850 +06:00 [INF] Hosting environment: Development
+2023-06-04 04:50:17.850 +06:00 [INF] Content root path: /home/aleksandrshatalov/RiderProjects/tempppp/CSharpProCourse/CustomerService/src/CustomerService.Web
+2023-06-04 04:50:25.938 +06:00 [INF] Application is shutting down...
+2023-06-04 05:22:44.054 +06:00 [INF] Registered 1 endpoints in 35 milliseconds.
+2023-06-04 05:22:44.156 +06:00 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2023-06-04 05:22:45.114 +06:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 05:22:45.129 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2023-06-04 05:22:45.142 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT migration_id, product_version
+FROM "__EFMigrationsHistory"
+ORDER BY migration_id;
+2023-06-04 05:22:45.157 +06:00 [INF] No migrations were applied. The database is already up to date.
+2023-06-04 05:22:45.168 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )
+2023-06-04 05:22:45.435 +06:00 [INF] Executed DbCommand (22ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 05:22:45.456 +06:00 [INF] User profile is available. Using '/home/aleksandrshatalov/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2023-06-04 05:22:45.514 +06:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 05:22:45.517 +06:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT r.id, r.concurrency_stamp, r.name, r.normalized_name
+FROM auth."Role" AS r
+WHERE r.normalized_name = @__normalizedName_0
+LIMIT 1
+2023-06-04 05:22:45.525 +06:00 [INF] Now listening on: http://localhost:57679
+2023-06-04 05:22:45.525 +06:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-04 05:22:45.525 +06:00 [INF] Hosting environment: Development
+2023-06-04 05:22:45.525 +06:00 [INF] Content root path: /home/aleksandrshatalov/RiderProjects/tempppp/CSharpProCourse/CustomerService/src/CustomerService.Web

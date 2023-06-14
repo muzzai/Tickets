@@ -29,4 +29,8 @@
     <ProjectReference Include="..\CustomerService.UnitTests\CustomerService.UnitTests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApiEndpoints\" />
+  </ItemGroup>
+
 </Project>

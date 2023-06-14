@@ -3,8 +3,7 @@ WORKDIR /App
 
 # Copy everything
 COPY . ./
-RUN rm nuget.config
-RUN mv secret.nuget.config nuget.config 
+RUN mv -f secret.nuget.config nuget.config 
 # Restore as distinct layers
 RUN dotnet restore
 # Build and publish a release
@@ -14,4 +13,4 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /App
 COPY --from=build-env /App/out .
-ENTRYPOINT ["dotnet", "DiscountService.dll"]
+ENTRYPOINT ["dotnet", "CustomerService.Web.dll"]

@@ -1,11 +1,59 @@
 version: '3.7'
+
+volumes:
+  db_data:
+
 services:
   rabbitmq:
-    image: rabbitmq:latest
+    image: rabbitmq:management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=username
+      - RABBITMQ_DEFAULT_PASS=password
     ports:
       - "5672:5672" # RabbitMQ communication port
       - "15672:15672" # RabbitMQ management UI port
+    profiles: ["All"]
         
   discount-service:
-    extends:
-      file: DiscountService/discount-service.yaml
+    build: DiscountService
+    ports:
+      - "80:80"
+    profiles: ["DiscountService", "All"]
+    depends_on: ["discount-service-db"]
+  
+  discount-service-db:
+    image: postgres
+    hostname: discount_service
+    container_name: discount_service
+    restart: always
+    environment:
+      POSTGRES_DB: discount_service.local
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    profiles: ["DiscountService", "All"]
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    
+  customer-service:
+    build: DiscountService
+    ports:
+      - "81:80"
+    profiles: [ "CustomerService", "All" ]
+    depends_on: [ "customer-service-db" ]
+
+  customer-service-db:
+    image: postgres
+    hostname: customer-service-db
+    container_name: customer-service-db
+    restart: always
+    environment:
+      POSTGRES_DB: customer_service.local
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "9090:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data    
+    profiles: [ "CustomerService", "All" ]
