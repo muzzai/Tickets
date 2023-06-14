@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E6722DA9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{AEF3AD24-9402-47F5-82E0-1698501DE39A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountContracts", "DiscountContracts\DiscountContracts.csproj", "{5A65BF42-37F2-45A7-B52E-57E9515885D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountContracts", "Contracts\DiscountContracts\DiscountContracts.csproj", "{5A65BF42-37F2-45A7-B52E-57E9515885D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

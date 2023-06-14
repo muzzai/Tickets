@@ -25,6 +25,8 @@
     <PackageVersion Include="FluentValidation" Version="11.5.1" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
+    <PackageVersion Include="MassTransit.Abstractions" Version="8.1.0-develop.1394" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.1.0-develop.1394" />
     <PackageVersion Include="MediatR" Version="12.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.3" />

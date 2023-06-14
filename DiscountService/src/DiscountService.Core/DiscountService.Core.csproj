@@ -12,11 +12,13 @@
         <PackageReference Include="Ardalis.SmartEnum" />
         <PackageReference Include="Ardalis.Specification" />
         <PackageReference Include="Autofac" />
+        <PackageReference Include="MassTransit.Abstractions" />
         <PackageReference Include="MediatR" />
         <PackageReference Include="SharedKernel" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Contracts\DiscountContracts\DiscountContracts.csproj" />
       <ProjectReference Include="..\..\..\DiscountContracts\DiscountContracts.csproj" />
     </ItemGroup>
 
