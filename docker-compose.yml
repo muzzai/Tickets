@@ -57,3 +57,29 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data    
     profiles: [ "CustomerService", "All" ]
+    
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=elastic
+    volumes:
+      - data:/var/lib/elasticsearch/data
+
+    ports:
+      - "9200:9200" # Elasticsearch REST API port
+      - "9300:9300" # Elasticsearch transport port
+    profiles: ["All"]
+    
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601" # Kibana port
+    depends_on:
+      - elasticsearch
+    profiles: [ "All" ]

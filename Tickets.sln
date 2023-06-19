@@ -41,6 +41,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountContracts", "Contracts\DiscountContracts\DiscountContracts.csproj", "{5A65BF42-37F2-45A7-B52E-57E9515885D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventCatalogService", "EventCatalogService", "{4F700AF7-3F3F-4E00-9B71-DD90641783E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventCatalogService.API", "EventCatalogService\EventCatalogService.API\EventCatalogService.API.csproj", "{E45AE16B-C966-4C61-9DE7-14B43DE09BF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventCatalogService.Infrastructure", "EventCatalogService\EventCatalogService.Infrastructure\EventCatalogService.Infrastructure.csproj", "{69D82443-E30A-4539-B093-756C5210B61A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +72,8 @@ Global
 		{90ACF8B7-8533-4FD2-B3AC-DAAED9DE040B} = {E6722DA9-1A8C-4081-A634-17D3DA8F5024}
 		{29091C67-50C6-4327-836D-A3169D434DFC} = {E6722DA9-1A8C-4081-A634-17D3DA8F5024}
 		{5A65BF42-37F2-45A7-B52E-57E9515885D7} = {AEF3AD24-9402-47F5-82E0-1698501DE39A}
+		{E45AE16B-C966-4C61-9DE7-14B43DE09BF0} = {4F700AF7-3F3F-4E00-9B71-DD90641783E5}
+		{69D82443-E30A-4539-B093-756C5210B61A} = {4F700AF7-3F3F-4E00-9B71-DD90641783E5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0B94A6E8-DEB7-4197-B0F4-6DB59C4C3E9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -116,5 +124,13 @@ Global
 		{5A65BF42-37F2-45A7-B52E-57E9515885D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A65BF42-37F2-45A7-B52E-57E9515885D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A65BF42-37F2-45A7-B52E-57E9515885D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E45AE16B-C966-4C61-9DE7-14B43DE09BF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E45AE16B-C966-4C61-9DE7-14B43DE09BF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E45AE16B-C966-4C61-9DE7-14B43DE09BF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E45AE16B-C966-4C61-9DE7-14B43DE09BF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69D82443-E30A-4539-B093-756C5210B61A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69D82443-E30A-4539-B093-756C5210B61A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69D82443-E30A-4539-B093-756C5210B61A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69D82443-E30A-4539-B093-756C5210B61A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
